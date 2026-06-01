@@ -1,0 +1,115 @@
+ABAP RAP Learning Notes
+=======================
+
+1. Core RAP Development Flow
+----------------------------
+The foundational pipeline for exposing data in the ABAP RESTful Application Programming Model:
+
+Interface View (I-View) -> Projection View (C-View) -> Service Definition -> Service Binding
+
+
+2. Semantically Dependent Elements
+----------------------------------
+Used to link quantities or amounts to their corresponding units or currencies.
+
+@Semantics.quantity.unitOfMeasure: 'UnitField'
+element_qty;
+
+@Semantics.amount.currencyCode: 'CurrencyField'
+element_amt;
+
+
+3. UI Annotations (List Reports & Object Pages)
+-----------------------------------------------
+General UI Elements:
+* @UI.headerInfo: Defines the header details (title, description, types) on the Object Page.
+* Selection Fields: The filter bar at the top of a List Report.
+* Search: Global search capability.
+* Value Help: F4 input help configuration.
+
+Syntax Breakdown:
+// Defines row position in the List Report grid (relative positioning)
+@UI.lineItem: [{ position: 10, label: 'New Label' }] 
+
+// Exposes the field as a filter criteria in the selection bar
+@UI.selectionField: [{ position: 10 }] 
+
+// Defines the position and label inside the Object Page's identification block
+@UI.identification: [{ position: 10, label: 'Field Label' }] 
+
+TIP: You can change or save default UI layouts using Variants directly in the UI launchpad.
+
+
+4. UI Facets (Object Page Layout)
+---------------------------------
+Facets define the structural layout of your Object Page to display detailed information in sections or tabs.
+
+@UI.facet: [
+  {
+    id:          'Id1',
+    purpose:     #STANDARD,
+    type:        #IDENTIFICATION_REFERENCE,
+    position:    10,
+    label:       'General Information'
+  },
+  {
+    id:           'Id2',
+    purpose:      #STANDARD,
+    type:         #LINEITEM_REFERENCE,
+    position:     20,
+    label:        'Items List',
+    targetElement: '_AssociationCDS' // Target association must be exposed in the Service Definition
+  }
+]
+
+
+5. CDS Associations
+-------------------
+Used to define relationships between data models.
+
+association [1..*] to zcds_target_view as _AssociationName 
+  on $projection.field1 = _AssociationName.field2
+
+Text Associations:
+To automatically fetch and display text descriptions from a text provider CDS view:
+
+1. In the main view:
+   @ObjectModel.text.association: '_TextAssociation'
+   element_id;
+
+2. In the target text view (_TextAssociation):
+   @Semantics.text: true
+   element_text;
+
+
+6. Search Capabilities
+----------------------
+To enable text search fields in your application:
+
+@Search.searchable: true // Placed at the header level of the CDS View
+
+// Inside the element list:
+@Search.defaultSearchElement: true
+@Search.fuzzinessThreshold: 0.8
+element_name;
+
+Search via Associations (Object Page Search):
+To make child/associated entities searchable from the root/main CDS:
+* Set @Search.defaultSearchElement: true on the association alias in the main view.
+* Ensure the child CDS view is marked @Search.searchable: true at its header level, and its text/key fields have @Search.defaultSearchElement: true.
+
+
+7. Value Helps (F4 Help)
+------------------------
+Binds an elementary field to a search help data source.
+
+@Consumption.valueHelpDefinition: [{ 
+  entity: { name: 'ZCDS_VALUE_HELP_VIEW', element: 'TargetField' } 
+}]
+element_id;
+
+
+8. Developer Quick Tip
+----------------------
+Verifying Active Annotations: To check the final evaluated annotations (including inherited ones) for your CDS view: 
+* Right-click inside your CDS code editor -> select Open With -> Active Annotations.
