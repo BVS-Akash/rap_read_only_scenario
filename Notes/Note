@@ -108,6 +108,15 @@ Binds an elementary field to a search help data source.
 }]
 element_id;
 
+8.Sortby in cds -> Cannot be done using order by clause.Can be achieved using UI Annotation.
+
+@UI.presentationVariant: [{
+    sortOrder: [
+        { by: 'Country', direction: #ASC } 
+    ],
+    visualizations: [{ type: #AS_LINEITEM }]
+}]
+
 
 8. Developer Quick Tip
 ----------------------
