@@ -108,7 +108,12 @@ Binds an elementary field to a search help data source.
 }]
 element_id;
 
-8.Sortby in cds -> Cannot be done using order by clause.Can be achieved using UI Annotation.
+8. Developer Quick Tip
+----------------------
+Verifying Active Annotations: To check the final evaluated annotations (including inherited ones) for your CDS view: 
+* Right-click inside your CDS code editor -> select Open With -> Active Annotations.
+
+9.Sortby in value help by default -> Cannot be done using order by clause.Can be achieved using UI Annotation.
 
 @UI.presentationVariant: [{
     sortOrder: [
@@ -116,9 +121,3 @@ element_id;
     ],
     visualizations: [{ type: #AS_LINEITEM }]
 }]
-
-
-8. Developer Quick Tip
-----------------------
-Verifying Active Annotations: To check the final evaluated annotations (including inherited ones) for your CDS view: 
-* Right-click inside your CDS code editor -> select Open With -> Active Annotations.
