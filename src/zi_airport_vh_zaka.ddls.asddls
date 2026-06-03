@@ -5,6 +5,13 @@
 
 @Search.searchable: true
 
+@UI.presentationVariant: [{
+    sortOrder: [
+        { by: 'Country', direction: #ASC } 
+    ],
+    visualizations: [{ type: #AS_LINEITEM }]
+}]
+
 define view entity zi_airport_vh_zaka as select from /dmo/airport
 {
     key airport_id as AirportId,
@@ -16,4 +23,4 @@ define view entity zi_airport_vh_zaka as select from /dmo/airport
     city as City,
     @Search.defaultSearchElement: true
     country as Country
-}
+} 
