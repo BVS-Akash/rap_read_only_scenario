@@ -291,6 +291,7 @@ Name
 
 ```abap
 @Search.fuzzinessThreshold: 0.8
+@Search.ranking : #HIGH
 ```
 
 Example:
